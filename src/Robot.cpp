@@ -355,9 +355,7 @@ void Robot::handleRequest(Messaging::Message &aMessage) {
 			aMessage.setBody("Let's do some merging: " + aMessage.asString());
 			merged = true;
 			robotType = SLAVE;
-			Application::Logger::log("I will be the stupid fucking slave");
-
-			RobotWorld::getRobotWorld().merge();
+			Application::Logger::log("I will act as the slave robot");
 		}
 		break;
 	}
@@ -373,30 +371,7 @@ void Robot::handleRequest(Messaging::Message &aMessage) {
 		aMessage.setBody(os.str());
 		break;
 	}
-	case Messaging::OtherRobotOnPathRequest: {
-#ifdef __MINGW32__
-		static int seed =
-				std::chrono::system_clock::now().time_since_epoch().count(); // lokale instantieoverkoepelende variabelen
-		static std::mt19937 gen(seed);
 
-#else
-	static std::random_device rd;
-	static std::mt19937 gen(rd());
-
-#endif
-
-		static std::uniform_int_distribution<unsigned short> dis(1, 10);
-
-		unsigned short rand = dis(gen);
-		myRand = rand;
-
-		aMessage.setMessageType(Messaging::OtherRobotOnPathResponse);
-		std::ostringstream os;
-		os << rand;
-		Application::Logger::log(__PRETTY_FUNCTION__ + std::string(os.str()));
-		aMessage.setBody(os.str());
-		break;
-	}
 	default: {
 		TRACE_DEVELOP(
 				__PRETTY_FUNCTION__ + std::string(": default not implemented"));
@@ -420,10 +395,9 @@ void Robot::handleResponse(const Messaging::Message &aMessage) {
 	}
 	case Messaging::MergeResponse: {
 		if (!merged) {
-			Application::Logger::log("fuck it we merge");
 			merged = true;
 			robotType = MASTER;
-			Application::Logger::log("I am the superior master");
+			Application::Logger::log("This robot will act as the master");
 			this->askForLocation();
 		}
 		break;
@@ -431,18 +405,6 @@ void Robot::handleResponse(const Messaging::Message &aMessage) {
 	case Messaging::RobotLocationResponse: {
 		if (merged) {
 			this->updateOtherRobot(aMessage.getBody());
-		}
-		break;
-	}
-	case Messaging::OtherRobotOnPathResponse: {
-		Application::Logger::log(
-				__PRETTY_FUNCTION__ + std::string(aMessage.getBody()));
-		if (myRand > std::stoi(aMessage.getBody())) {
-			break;
-		} else if (myRand == std::stoi(aMessage.getBody())) {
-			randomCollision();
-		} else {
-			waitingForOther = true;
 		}
 		break;
 	}

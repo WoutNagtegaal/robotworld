@@ -569,8 +569,4 @@ RobotWorld::~RobotWorld() {
 	unpopulate();
 }
 
-void RobotWorld::merge() {
-	Application::Logger::log("we fucking merge");
-}
-
 } // namespace Model
