@@ -604,14 +604,21 @@ void Robot::drive() {
  *
  */
 void Robot::calculateRoute(GoalPtr aGoal) {
+	std::cout << "Start clearing path" << std::endl;
 	path.clear();
+	std::cout << "Path cleared" << std::endl;
 	if (aGoal) {
 		// Turn off logging if not debugging AStar
 		Application::Logger::setDisable();
-
+		std::cout << "Setting ze front" << std::endl;
 		front = BoundedVector(aGoal->getPosition(), position);
+		std::cout << "Starting ze seach" << std::endl;
+		std::cout << " " << aGoal->getPosition().x << " " << aGoal->getPosition().y << " " << position.x << " " << position.y;
+
 		//handleNotificationsFor( astar);
 		path = astar.search(position, aGoal->getPosition(), size);
+		std::cout << "Found ze route" << std::endl;
+
 		//stopHandlingNotificationsFor( astar);
 
 		Application::Logger::setDisable(false);
