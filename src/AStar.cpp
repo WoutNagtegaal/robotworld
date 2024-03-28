@@ -352,7 +352,9 @@ namespace PathAlgorithm
 	 */
 	void AStar::removeFromClosedSet( ClosedSet::iterator& i)
 	{
-		closedSet.erase( i);
+		if(i != closedSet.end()) {
+			closedSet.erase( i);
+		}
 		notifyObservers();
 	}
 	/**
