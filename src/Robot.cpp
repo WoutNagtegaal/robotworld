@@ -609,6 +609,7 @@ void Robot::drive() {
  *
  */
 void Robot::calculateRoute(GoalPtr aGoal) {
+	this->stopCommunicating();
 	std::cout << "Start clearing path" << std::endl;
 	path.clear();
 	std::cout << "Path cleared" << std::endl;
@@ -627,9 +628,13 @@ void Robot::calculateRoute(GoalPtr aGoal) {
 
 		Application::Logger::setDisable(false);
 	}
+	this->startCommunicating();
+
 }
 
 void Robot::calculateRoute(WayPointPtr aWayPoint) {
+	this->stopCommunicating();
+
 	path.clear();
 	if (aWayPoint) {
 		// Turn off logging if not debugging AStar
@@ -642,6 +647,8 @@ void Robot::calculateRoute(WayPointPtr aWayPoint) {
 
 		Application::Logger::setDisable(false);
 	}
+	this->startCommunicating();
+
 }
 /**
  *
