@@ -443,7 +443,6 @@ std::string Robot::asDebugString() const {
  */
 void Robot::drive() {
 	try {
-		waitingForOther = false;
 		// The runtime value always wins!!
 		speed =
 				static_cast<float>(Application::MainApplication::getSettings().getSpeed());
@@ -492,7 +491,7 @@ void Robot::drive() {
 				if (this->otherRobotOnPath(pathPoint)) {
 					Application::Logger::log(
 							__PRETTY_FUNCTION__
-									+ std::string(": fuck you in ma way"));
+									+ std::string(": I see the other robot in my way"));
 					if (this->toCloseToWall()) {
 						if (this->robotType == SLAVE) {
 							direction = -1;
@@ -523,16 +522,16 @@ void Robot::drive() {
 				} else if (this->otherRobotWithinRadius(60)) {
 					Application::Logger::log(
 							__PRETTY_FUNCTION__
-									+ std::string(": fuck you in ma way"));
+									+ std::string(": I see the other robot in my way"));
 
 					if (robotType == SLAVE) {
 						Application::Logger::log(
-								"Oh no I am subserviant and must wait");
+								"I have low priority");
 						std::this_thread::sleep_for(
 								std::chrono::milliseconds(2000));
 					} else {
 						Application::Logger::log(
-								"I am a master and will do whatever i want");
+								"I have high priority");
 					}
 
 				}
@@ -565,7 +564,7 @@ void Robot::drive() {
 			} else if (collision()) {
 				Application::Logger::log(
 						__PRETTY_FUNCTION__
-								+ std::string(": Robot has fucking died"));
+								+ std::string(": Oh no, the robot has crashed"));
 				driving = false;
 			}
 
@@ -775,35 +774,6 @@ bool Robot::otherRobotOnPath(unsigned short pathPoint) {
 	return false;
 }
 
-void Robot::randomCollision() {
-	Model::RobotPtr robot = Model::RobotWorld::getRobotWorld().getRobot(
-			"Butter");
-
-	if (!robot) {
-		return;
-	}
-
-	std::ostringstream os;
-	os << __PRETTY_FUNCTION__ << " asking for location" << std::endl;
-
-	std::string remoteIpAdres = "localhost";
-	std::string remotePort = "12345";
-
-	if (Application::MainApplication::isArgGiven("-remote_ip")) {
-		remoteIpAdres =
-				Application::MainApplication::getArg("-remote_ip").value;
-	}
-	if (Application::MainApplication::isArgGiven("-remote_port")) {
-		remotePort = Application::MainApplication::getArg("-remote_port").value;
-	}
-
-	Application::Logger::log(os.str());
-	Messaging::Client client(remoteIpAdres,
-			static_cast<unsigned short>(std::stoi(remotePort)), robot);
-
-	client.dispatchMessage(
-			Messaging::Message(Messaging::OtherRobotOnPathRequest));
-}
 
 bool Robot::toCloseToWall() {
 

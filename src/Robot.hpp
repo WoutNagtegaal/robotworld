@@ -342,10 +342,7 @@ namespace Model
 			bool otherRobotOnPath(unsigned short pathPoint);
 			bool otherRobotWithinRadius(signed long radius);
 
-			// waiting stuff
-			unsigned short myRand;
-			bool waitingForOther;
-			void randomCollision();
+
 			bool toCloseToWall();
 
 			enum RobotType {
