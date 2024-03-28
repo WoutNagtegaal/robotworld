@@ -161,10 +161,10 @@ namespace PathAlgorithm
 				printf("AStar::search:  get neigbours connections\n");
 				const std::vector< Edge >& connections = GetNeighbourConnections( current, radius);
 				printf("AStar::search:  got\n");
+				printf("AStar::search:  loop begin\n");
 
 				for (const Edge& connection : connections)
 				{
-					printf("AStar::search:  loop begin\n");
 					Vertex neighbour = connection.otherSide( current);
 
 					// Calculate the cost for the newly found neighbour
@@ -194,6 +194,8 @@ namespace PathAlgorithm
 					printf("AStar::search:  loop end\n");
 					// The neighbour may be re-opened because we found a shorter via-route
 					ClosedSet::iterator closedVertex = findInClosedSet( neighbour);
+					printf("AStar::search:  found closedVertexyboy\n");
+
 					if (closedVertex != closedSet.end())
 					{
 						// if neighbour is in the closedSet we may have found a shorter via-route
@@ -208,6 +210,8 @@ namespace PathAlgorithm
 							removeFromClosedSet( closedVertex);
 						}
 					}
+					printf("AStar::search:  closed shit\n");
+
 
 					// Add the new found neighbour to the openSet
 					addToOpenSet( neighbour);
