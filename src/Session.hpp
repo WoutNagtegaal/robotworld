@@ -10,6 +10,7 @@
 
 #include <boost/asio.hpp>
 
+#include <iostream>
 #include <sstream>
 #include <string>
 
@@ -275,6 +276,8 @@ namespace Messaging
 			 */
 			virtual void handleMessageRead() override
 			{
+				FUNCTRACE_TEXT_DEVELOP("Funky shit starting");
+
 				if(message.getMessageType() != CommunicationReadError)
 				{
 					requestHandler->handleRequest( message);
@@ -284,6 +287,8 @@ namespace Messaging
 					TRACE_DEVELOP("*** ServerSession::handleMessageRead: " + message.asString());
 					delete this;
 				}
+				std::cout << "Funky shit stopping" << std::endl;
+
 			}
 			/**
 			 * @see Session::handleMessageWritten( Message& aMessage)

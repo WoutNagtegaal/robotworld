@@ -588,7 +588,7 @@ void Robot::drive() {
 			notifyObservers();
 
 			// If there is no sleep_for here the robot will immediately be on its destination....
-			std::this_thread::sleep_for(std::chrono::milliseconds(500)); // @suppress("Avoid magic numbers")
+			std::this_thread::sleep_for(std::chrono::milliseconds(100)); // @suppress("Avoid magic numbers")
 
 			// this should be the last thing in the loop
 			if (driving == false) {
@@ -618,7 +618,6 @@ void Robot::calculateRoute(GoalPtr aGoal) {
 		std::cout << "Setting ze front" << std::endl;
 		front = BoundedVector(aGoal->getPosition(), position);
 		std::cout << "Starting ze seach" << std::endl;
-		std::cout << " " << aGoal->getPosition().x << " " << aGoal->getPosition().y << " " << position.x << " " << position.y;
 
 		//handleNotificationsFor( astar);
 		path = astar.search(position, aGoal->getPosition(), size);
