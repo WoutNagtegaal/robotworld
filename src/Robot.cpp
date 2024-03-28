@@ -149,9 +149,11 @@ void Robot::stopActing() {
  */
 void Robot::startDriving() {
 	driving = true;
+	std::cout << "Getting ze goal" << std::endl;
 	goal = RobotWorld::getRobotWorld().getGoal("Goal");
+	std::cout << "Got ze goal, calculating route" << std::endl;
 	calculateRoute(goal);
-
+	std::cout << "Gotten ze route, start driving" << std::endl;
 	drive();
 }
 /**
