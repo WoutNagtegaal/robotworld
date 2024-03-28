@@ -406,7 +406,10 @@ void Robot::handleResponse(const Messaging::Message &aMessage) {
 	}
 	case Messaging::RobotLocationResponse: {
 		if (merged) {
+			std::cout << "Updating ze other robot" << std::endl;
 			this->updateOtherRobot(aMessage.getBody());
+			std::cout << "Updated ze other robot" << std::endl;
+
 		}
 		break;
 	}
@@ -585,7 +588,7 @@ void Robot::drive() {
 			notifyObservers();
 
 			// If there is no sleep_for here the robot will immediately be on its destination....
-			std::this_thread::sleep_for(std::chrono::milliseconds(100)); // @suppress("Avoid magic numbers")
+			std::this_thread::sleep_for(std::chrono::milliseconds(500)); // @suppress("Avoid magic numbers")
 
 			// this should be the last thing in the loop
 			if (driving == false) {
