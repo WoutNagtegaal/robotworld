@@ -562,7 +562,9 @@ void Robot::drive() {
 				getOutOfMyWayPoint->setPosition(wxPoint(600, 600));
 				std::cout << "Edited waypoint" << std::endl;
 				std::cout << "Calculating route" << std::endl;
-
+				if(goal) {
+					std::cout << "We have a goal" << std::endl;
+				}
 				calculateRoute(goal);
 				std::cout << "Calculated route" << std::endl;
 
