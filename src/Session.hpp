@@ -276,7 +276,7 @@ namespace Messaging
 			 */
 			virtual void handleMessageRead() override
 			{
-				FUNCTRACE_TEXT_DEVELOP("Funky shit starting");
+				FUNCTRACE_TEXT_DEVELOP("Funky server shit starting");
 
 				if(message.getMessageType() != CommunicationReadError)
 				{
@@ -287,7 +287,7 @@ namespace Messaging
 					TRACE_DEVELOP("*** ServerSession::handleMessageRead: " + message.asString());
 					delete this;
 				}
-				std::cout << "Funky shit stopping" << std::endl;
+				std::cout << "Funky server shit stopping" << std::endl;
 
 			}
 			/**
@@ -351,6 +351,8 @@ namespace Messaging
 			 */
 			virtual void handleMessageRead() override
 			{
+				FUNCTRACE_TEXT_DEVELOP("Funky client shit starting");
+
 				if(message.getMessageType() != CommunicationReadError)
 				{
 					// This is the place where any reply message from the server should
@@ -360,9 +362,13 @@ namespace Messaging
 				{
 					TRACE_DEVELOP("*** ClientSession::handleMessageRead: " + message.asString());
 				}
+				std::cout << "Funky client shit stopping" << std::endl;
 
 				// See https://isocpp.org/wiki/faq/freestore-mgmt#delete-this
 				delete this;
+
+				std::cout << "Removed myself?????" << std::endl;
+
 			}
 			/**
 			 * @see Session::handleMessageWritten( Message& aMessage)
