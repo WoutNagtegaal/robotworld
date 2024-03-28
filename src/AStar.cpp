@@ -327,7 +327,9 @@ namespace PathAlgorithm
 	 */
 	void AStar::removeFirstFromOpenSet()
 	{
-		openSet.erase( openSet.begin());
+		if(!openSet.empty()) {
+			openSet.erase( openSet.begin());
+		}
 	}
 	/**
 	 *
