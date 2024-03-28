@@ -281,7 +281,9 @@ namespace Messaging
 				if(message.getMessageType() != CommunicationReadError)
 				{
 					requestHandler->handleRequest( message);
+					std::cout << "Writing message" << std::endl;
 					writeMessage( message);
+					std::cout << "Written message" << std::endl;
 				}else
 				{
 					TRACE_DEVELOP("*** ServerSession::handleMessageRead: " + message.asString());
