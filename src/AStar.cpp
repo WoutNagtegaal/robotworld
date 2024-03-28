@@ -116,52 +116,36 @@ namespace PathAlgorithm
 						const Vertex& aGoal,
 						const wxSize& aRobotSize)
 	{
-		printf("AStar::search:  clearing stuff\n");
 		getOS().clear();
 		getCS().clear();
 		getPM().clear();
-		printf("AStar::search:  cleared stuff\n");
 
-		printf("AStar::search:  calc radius\n");
 		int radius = static_cast<int>(std::ceil(std::sqrt( ((aRobotSize.x+1) / 2.0) * ((aRobotSize.x+1) / 2.0) + ((aRobotSize.y+1) / 2.0) * ((aRobotSize.y+1) / 2.0))));
 
 		aStart.actualCost = 0.0; 													// Cost from aStart along the best known path.
 		aStart.heuristicCost = aStart.actualCost + HeuristicCost( aStart, aGoal);	// Estimated total cost from aStart to aGoal through y.
 
-		printf("AStar::search: add to open set \n");
 		addToOpenSet(aStart);
-		printf("AStar::search:  added\n");
 
 		// Keep the timing stuff, please.
 //		clock_t start = std::clock();
 		while (!openSet.empty())
 		{
 			// The openSet should be sorted by cost, least cost must be the first
-			printf("AStar::search:  current\n");
 			Vertex current = *openSet.begin();
-			printf("AStar::search:  current end\n");
 
 			if (current.equalPoint( aGoal))
 			{
-				printf("AStar::search: equalpoint if \n");
 //				clock_t end = std::clock();
 //				std::cout << "Duration: " << static_cast<double>(end - start)/CLOCKS_PER_SEC <<	", openSet: " << openSet.size() <<  ", closedSet: " << closedSet.size() << ", predecessorMap: " << predecessorMap.size() << std::endl;
-				printf("AStar::search:  construct path\n");
 				return ConstructPath( predecessorMap, current);
 			} else
 			{
-				printf("AStar::search:  remove first from open\n");
 				removeFirstFromOpenSet();
-				printf("AStar::search:  removed\n");
-				printf("AStar::search:  add to closed set\n");
 				addToClosedSet( current);
-				printf("AStar::search:  added\n");
 
 				// Find all the outgoing connections for the current Vertex
-				printf("AStar::search:  get neigbours connections\n");
 				const std::vector< Edge >& connections = GetNeighbourConnections( current, radius);
-				printf("AStar::search:  got\n");
-				printf("AStar::search:  loop begin\n");
 
 				for (const Edge& connection : connections)
 				{
@@ -191,10 +175,8 @@ namespace PathAlgorithm
 						}
 					}
 
-					printf("AStar::search:  loop end\n");
 					// The neighbour may be re-opened because we found a shorter via-route
 					ClosedSet::iterator closedVertex = findInClosedSet( neighbour);
-					printf("AStar::search:  found closedVertexyboy\n");
 
 					if (closedVertex != closedSet.end())
 					{
@@ -210,7 +192,6 @@ namespace PathAlgorithm
 							removeFromClosedSet( closedVertex);
 						}
 					}
-					printf("AStar::search:  closed shit\n");
 
 
 					// Add the new found neighbour to the openSet
