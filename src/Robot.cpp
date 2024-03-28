@@ -475,7 +475,10 @@ void Robot::drive() {
 				pathPoint = 0;
 			}
 			const PathAlgorithm::Vertex &vertex = path[pathPoint];
+			std::cout << "Before calc" << pathPoint << std::endl;
 			pathPoint += static_cast<unsigned short>(speed * direction);
+			std::cout << "After calc" << pathPoint << std::endl;
+
 			front = BoundedVector(vertex.asPoint(), position);
 			direction = 1;
 			position.x = vertex.x;
