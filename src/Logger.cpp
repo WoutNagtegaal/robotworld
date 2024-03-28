@@ -11,6 +11,6 @@ namespace Application
 	 */
 	/*static*/void Logger::log( const std::string& aMessage)
 	{
-		Base::Trace::trace(aMessage);
+		//Base::Trace::trace(aMessage);
 	}
 } //namespace Application
