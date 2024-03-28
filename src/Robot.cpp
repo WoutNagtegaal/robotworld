@@ -449,7 +449,7 @@ void Robot::handleResponse(const Messaging::Message &aMessage) {
 	default: {
 		TRACE_DEVELOP(
 				__PRETTY_FUNCTION__ + std::string(": default not implemented, ")
-						+ aMessage.asString());
+				+ aMessage.asString());
 		break;
 	}
 	}
@@ -510,14 +510,13 @@ void Robot::drive() {
 				&& position.y < 500 && pathPoint < path.size()) // @suppress("Avoid magic numbers")
 		{
 			// Do the update
+			if (pathPoint >= path.size()) {
+				pathPoint = 0;
+			}
+			const PathAlgorithm::Vertex &vertex = path[pathPoint];
 			Application::Logger::log("Before calc: " + pathPoint);
 			pathPoint += static_cast<unsigned short>(speed * direction);
 			Application::Logger::log("After calc: " + pathPoint);
-			if(pathPoint < 0 || pathPoint >= path.size()) {
-				pathPoint = 0;
-			}
-
-			const PathAlgorithm::Vertex &vertex = path[pathPoint];
 			front = BoundedVector(vertex.asPoint(), position);
 			direction = 1;
 			position.x = vertex.x;
@@ -594,7 +593,7 @@ void Robot::drive() {
 						__PRETTY_FUNCTION__
 								+ std::string(": calculating route"));
 				pathPoint = 0;
-                direction = 1;
+				direction = 1;
 				goingToWayPoint = false;
 				getOutOfMyWayPoint->setPosition(wxPoint(600, 600));
 				calculateRoute(goal);
