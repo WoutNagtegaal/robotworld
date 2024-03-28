@@ -475,9 +475,9 @@ void Robot::drive() {
 				pathPoint = 0;
 			}
 			const PathAlgorithm::Vertex &vertex = path[pathPoint];
-			std::cout << "Before calc" << pathPoint << std::endl;
+			std::cout << "Before calc " << pathPoint << std::endl;
 			pathPoint += static_cast<unsigned short>(speed * direction);
-			std::cout << "After calc" << pathPoint << std::endl;
+			std::cout << "After calc " << pathPoint << std::endl;
 
 			front = BoundedVector(vertex.asPoint(), position);
 			direction = 1;
@@ -549,6 +549,7 @@ void Robot::drive() {
 				Application::Logger::log(
 						__PRETTY_FUNCTION__
 								+ std::string(": arrived at waypoint"));
+				std::cout << "Arrived at waypoint " << std::endl;
 				driving = false;
 
 				Application::Logger::log(
@@ -557,8 +558,14 @@ void Robot::drive() {
 				pathPoint = 0;
 				direction = 1;
 				goingToWayPoint = false;
+				std::cout << "Editing waypoint" << std::endl;
 				getOutOfMyWayPoint->setPosition(wxPoint(600, 600));
+				std::cout << "Edited waypoint" << std::endl;
+				std::cout << "Calculating route" << std::endl;
+
 				calculateRoute(goal);
+				std::cout << "Calculated route" << std::endl;
+
 				Application::Logger::log(
 						__PRETTY_FUNCTION__
 								+ std::string(": calculated route"));
